@@ -28,8 +28,8 @@ TARGET_CPU_SMP := true
 
 # Flags
 COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64 -DNEW_ION_API=1
-TARGET_GLOBAL_CFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
+TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 # Krait optimizations
 TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
@@ -94,3 +94,6 @@ TARGET_USES_QCOM_COMPRESSED_AUDIO := true
 # We have the new GPS driver
 BOARD_HAVE_NEW_QC_GPS := true
 
+# Might as well...
+COMMON_GLOBAL_CFLAGS += -fno-strict-aliasing -Wno-error -fno-permissive
+COMMON_GLOBAL_CPPFLAGS += -fno-strict-aliasing -Wno-error -fno-permissive
