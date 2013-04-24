@@ -96,4 +96,4 @@ BOARD_HAVE_NEW_QC_GPS := true
 
 # Might as well...
 COMMON_GLOBAL_CFLAGS += -fno-strict-aliasing -Wno-error
-COMMON_GLOBAL_CPPFLAGS += -fno-strict-aliasing -Wno-error -fno-permissive
+COMMON_GLOBAL_CPPFLAGS += -fno-strict-aliasing -Wno-error
