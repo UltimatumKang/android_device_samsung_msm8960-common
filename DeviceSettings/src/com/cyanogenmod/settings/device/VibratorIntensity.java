@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 The CyanogenMod Project
+ *Copyright (C) 2012 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,32 +16,33 @@
 
 package com.cyanogenmod.settings.device;
 
+import java.io.IOException;
 import android.content.Context;
-
-import android.content.SharedPreferences;
 import android.util.AttributeSet;
+import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.ListPreference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceManager;
+import android.os.Vibrator;
 
-public class mDNIeMode extends ListPreference implements OnPreferenceChangeListener {
+public class VibratorIntensity extends ListPreference implements OnPreferenceChangeListener {
 
-    private static final String MDNIE_MODE_AUTO = "4";
-
-    public mDNIeMode(Context context, AttributeSet attrs) {
+    private Vibrator vibrator;
+    public VibratorIntensity(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.setOnPreferenceChangeListener(this);
+        this.vibrator = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);
     }
 
-    private static final String FILE = "/sys/class/mdnie/mdnie/mode";
+    private static final String FILE = "/sys/vibrator/pwm_val";
 
     public static boolean isSupported() {
         return Utils.fileExists(FILE);
     }
 
     /**
-     * Restore mdnie user mode setting from SharedPreferences. (Write to kernel.)
+     * Restore vibrator intensity setting from SharedPreferences. (Write to kernel.)
      * @param context       The context to read the SharedPreferences from
      */
     public static void restore(Context context) {
@@ -50,12 +51,16 @@ public class mDNIeMode extends ListPreference implements OnPreferenceChangeListe
         }
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        Utils.writeValue(FILE, sharedPrefs.getString(DeviceSettings.KEY_MDNIE_MODE, MDNIE_MODE_AUTO));
+        Utils.writeValue(FILE, sharedPrefs.getString(DeviceSettings.KEY_VIBRATOR_INTENSITY, "50"));
     }
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Utils.writeValue(FILE, (String) newValue);
+        if (this.vibrator != null) {
+            this.vibrator.vibrate(300);
+        }
         return true;
     }
 
 }
+
