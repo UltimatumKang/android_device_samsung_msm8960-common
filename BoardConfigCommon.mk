@@ -26,7 +26,10 @@ TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_CPU_SMP := true
 
 # Flags for Krait CPU
-COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64 -DNEW_ION_API -DQCOM_BSP_CAMERA_ABI_HACK
+COMMON_GLOBAL_CFLAGS += -D__ARM_USE_PLD -D__ARM_CACHE_LINE_SIZE=64 -DQCOM_BSP_CAMERA_ABI_HACK
+ifneq ($(VARIENT_REQUIRE_3.0_KERNEL),true)
+COMMON_GLOBAL_CFLAGS += -DNEW_ION_API
+endif
 TARGET_GLOBAL_CFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
@@ -96,3 +99,7 @@ BOARD_HAVE_NEW_QC_GPS := true
 # Might as well...
 COMMON_GLOBAL_CFLAGS += -fno-strict-aliasing -Wno-error
 COMMON_GLOBAL_CPPFLAGS += -fno-strict-aliasing -Wno-error
+
+# Use CAF media driver variant for 8960
+TARGET_QCOM_MEDIA_VARIANT := caf
+
