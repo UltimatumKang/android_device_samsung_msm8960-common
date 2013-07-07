@@ -40,6 +40,6 @@
 
     <!-- Default interface to monitor data use -->
     <string name="config_datause_iface">rmnet0</string>
-    <integer name="config_deviceHardwareKeys">7</string>
+    <integer name="config_deviceHardwareKeys">7</integer>>
 
 </resources>
